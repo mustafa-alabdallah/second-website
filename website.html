@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotics Fun Zone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff8dc;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-image: url('https://via.placeholder.com/1500x1000'); /* Add an interesting background image */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        header {
+            background-color: #ffcc00;
+            color: white;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .robot-card {
+            display: inline-block;
+            background-color: #ffeeaa;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: left;
+        }
+
+        .robot-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .robot-card h3 {
+            margin: 10px 0;
+        }
+
+        .robot-card button {
+            background-color: #ffa500;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .robot-card button:hover {
+            background-color: #e59400;
+        }
+
+        #trivia {
+            margin: 20px auto;
+            background-color: #ffeeaa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+        }
+
+        #leaderboard-button, #chat-button, #resources-button {
+            margin: 20px;
+            background-color: #ffcc00;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #leaderboard-button:hover, #chat-button:hover, #resources-button:hover {
+            background-color: #e6b800;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Robotics Fun Zone</h1>
+        <p>Explore exciting robots and their amazing features!</p>
+    </header>
+
+    <div id="trivia">
+        <h3>Did You Know?</h3>
+        <p id="random-fact"></p>
+    </div>
+
+    <button id="leaderboard-button" onclick="syncLeaderboard()">View Leaderboard</button>
+    <button id="chat-button" onclick="window.open('https://chat.openai.com', '_blank')">Live Chat with AI Bots</button>
+    <button id="resources-button" onclick="window.open('https://www.youtube.com/watch?v=QIn9c5TjrKk&t=24s', '_blank')">Learning Resources</button>
+
+    <div class="container">
+        <div class="robot-card">
+            <img src="helper-bot.jpg" alt="Helper Bot">
+            <h3>Helper Bot</h3>
+            <p>Let this robot assist you with daily tasks and chores.</p>
+            <button onclick="alert('Helper Bot says: How can I help you today?')">Activate</button>
+        </div>
+
+        <div class="robot-card">
+            <img src="robo-warrior.jpg" alt="Robo Warrior">
+            <h3>Robo Warrior</h3>
+            <p>A high-tech defense bot designed to keep you safe.</p>
+            <button onclick="alert('Robo Warrior says: Ready for battle!')">Activate</button>
+        </div>
+
+        <div class="robot-card">
+            <img src="robot-explorer.jpg" alt="Robot Explorer">
+            <h3>Robot Explorer</h3>
+            <p>Discover the mysteries of space with this intelligent space rover.</p>
+            <button onclick="alert('Robot Explorer says: Ready for launch!')">Activate</button>
+        </div>
+    </div>
+
+    <img src="image.png" alt="Rocket and Cat" width="300" style="margin: 20px auto; display: block;">
+
+    <script>
+        const facts = [
+            "The first robot was created in 1961 and was called Unimate.",
+            "Robots are widely used in space exploration.",
+            "Some robots can perform surgeries with high precision.",
+            "The term 'robot' was first used in a play by Karel Čapek in 1921.",
+            "Robots are used in dangerous jobs like bomb disposal.",
+            "Mars rovers are among the most famous space robots."
+        ];
+
+        function displayRandomFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            document.getElementById('random-fact').innerText = facts[randomIndex];
+        }
+
+        function syncLeaderboard() {
+            fetch('leaderboard_example.xlsx')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'leaderboard_example.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Error syncing leaderboard:', error));
+        }
+
+        window.onload = displayRandomFact;
+    </script>
+</body>
+</html>
